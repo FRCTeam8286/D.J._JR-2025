@@ -1,7 +1,7 @@
 // Author: UMN Robotics Ri3D
 // Last Updated: January 2025
 
-package frc.robot.subsystems;
+/*package frc.robot.subsystems;
 
 import frc.robot.Constants;
 
@@ -94,4 +94,4 @@ public class VisionSubsystem extends SubsystemBase {
     
         return inRange;
     }
-}
+}*/

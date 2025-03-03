@@ -41,16 +41,16 @@ public final class Constants {
     public static final int RIGHT_STICK_BUTTON = 12;
 
     // Spark MAX CAN IDs //
-    public static final int LEFT_FRONT_DRIVE_MOTOR_ID = 3; // NEO motor
-    public static final int RIGHT_FRONT_DRIVE_MOTOR_ID = 2; // NEO motor
+    public static final int LEFT_FRONT_DRIVE_MOTOR_ID = 10; // NEO motor
+    public static final int RIGHT_FRONT_DRIVE_MOTOR_ID = 12; // NEO motor
     public static final int LEFT_REAR_DRIVE_MOTOR_ID = 11; // NEO motor
-    public static final int RIGHT_REAR_DRIVE_MOTOR_ID = 4; // NEO motor
-    public static final int INTAKE_BAR_MOTOR_ID = 9; // NEO 550 motor
-    public static final int INTAKE_ARM_MOTOR_ID = 6; // NEO motor
-    public static final int ELEVATOR_STAGE_1_MOTOR_ID = 12; // NEO motor
-    public static final int ELEVATOR_STAGE_2_MOTOR_ID = 10; // NEO 550 motor
-    public static final int END_EFFECTOR_WHEEL_MOTOR_ID = 7; // NEO 550 motor
-    public static final int END_EFFECTOR_ARM_MOTOR_ID = 8; // NEO 550 motor
+    public static final int RIGHT_REAR_DRIVE_MOTOR_ID = 13; // NEO motor
+    public static final int INTAKE_BAR_MOTOR_ID = 40; // NEO 550 motor
+    public static final int INTAKE_ARM_MOTOR_ID = 30; // NEO motor
+    public static final int ELEVATOR_STAGE_1_MOTOR_ID = 20; // NEO motor
+    //public static final int ELEVATOR_STAGE_2_MOTOR_ID = 10; // NEO 550 motor
+    //public static final int END_EFFECTOR_WHEEL_MOTOR_ID = 7; // NEO 550 motor
+    //public static final int END_EFFECTOR_ARM_MOTOR_ID = 8; // NEO 550 motor
 
     // Servo IDs //
     public static final int ELEVATOR_DROP_MOTOR_ID = 0;
