@@ -192,7 +192,11 @@ public class Robot extends TimedRobot {
     double ySpeed = controller.getRawAxis(Constants.LEFT_VERTICAL_JOYSTICK_AXIS);
     double xSpeed = -controller.getRawAxis(Constants.LEFT_HORIZONTAL_JOYSTICK_AXIS);
     double zSpeed = -controller.getRawAxis(Constants.RIGHT_HORIZONTAL_JOYSTICK_AXIS);
-    
+    // Implementing a dead zone
+    double deadZone = 0.05;
+    ySpeed = (Math.abs(ySpeed) > deadZone) ? ySpeed : 0;
+    xSpeed = (Math.abs(xSpeed) > deadZone) ? xSpeed : 0;
+    zSpeed = (Math.abs(zSpeed) > deadZone) ? zSpeed : 0;
     // Speed limits
     ySpeed = Math.max(Math.min(ySpeed, 0.4), -0.4);
     xSpeed = Math.max(Math.min(xSpeed, 0.4), -0.4);
