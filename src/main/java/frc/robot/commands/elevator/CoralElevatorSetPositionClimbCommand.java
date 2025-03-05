@@ -38,7 +38,7 @@ public class CoralElevatorSetPositionClimbCommand extends Command {
     double output_1 = kP * error_1;
 
     if (Math.abs(output_1) > 0.2) { // Max power we want to allow
-      output_1 = Math.copySign(0.2, output_1);
+      output_1 = Math.copySign(0.5, output_1);
     }
     if (Math.abs(output_1) < 0.05) { // Min power we want to allow
       output_1 = Math.copySign(0.05, output_1);
