@@ -16,17 +16,14 @@ public class CoralElevatorSetPositionBoth extends Command {
 
   private double position_1;
   private double error_1;
-  private double position_2;
-  private double error_2;
 
   private double kP_climb = 0.05;
   private double goalThreshold = 3;
 
   /** Causes arm and climb motor to move to given position */
-  public CoralElevatorSetPositionBoth(double position, double position_1, double position_2) {
+  public CoralElevatorSetPositionBoth(double position, double position_1) {
     this.position = position;
     this.position_1 = position_1;
-    this.position_2 = position_2;
     m_subsystem = Robot.m_CoralElevatorSubsystem;
     addRequirements(m_subsystem);
   }
@@ -44,8 +41,6 @@ public class CoralElevatorSetPositionBoth extends Command {
     double output = kP * error;
     this.error_1 = position_1 - m_subsystem.getPositionClimbOne();
     double output_1 = kP_climb * error_1;
-    this.error_2 = position_2 - m_subsystem.getPositionClimbOne();
-    double output_2 = kP_climb * error_2;
 
     if (Math.abs(output) > 0.2) { // Max power we want to allow
       output = Math.copySign(0.2, output);
@@ -66,12 +61,6 @@ public class CoralElevatorSetPositionBoth extends Command {
     if ((Math.abs(this.error_1) > this.goalThreshold) && Math.abs(output_1) < 0.05) { // Min power we want to allow
       output_1 = Math.copySign(0.05, output_1);
     }
-    if (Math.abs(output_2) > 0.2) { // Max power we want to allow
-      output_2 = Math.copySign(0.2, output_2);
-    }
-    if (Math.abs(this.error_2) > this.goalThreshold && Math.abs(output_2) < 0.05) { // Min power we want to allow
-      output_2 = Math.copySign(0.05, output_2);
-    }
 
     m_subsystem.setSpeedClimbOne(output_1);
   }
@@ -86,6 +75,6 @@ public class CoralElevatorSetPositionBoth extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(error) <= 0.5 && (Math.abs(this.error_1) < this.goalThreshold) && (Math.abs(this.error_2) < this.goalThreshold);
+    return Math.abs(error) <= 0.5 && (Math.abs(this.error_1) < this.goalThreshold);
   }
 }

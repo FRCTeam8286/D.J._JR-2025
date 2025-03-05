@@ -29,9 +29,7 @@ public class CoralElevatorSubsystem extends SubsystemBase {
 
     // Coral Elevator limiters
     public double climb_max_1 = 167.2;
-    public double climb_max_2 = 251;
     public double climb_min_1 = 0;
-    public double climb_min_2 = 0;
     public double arm_max = 4;
     public double arm_min = -42.19;
 
@@ -103,25 +101,25 @@ public class CoralElevatorSubsystem extends SubsystemBase {
   /* Sets position of elevator climb to Neutral preset */
   public void climbNeutral() {
     // Calls CoralElevatorSetPositionClimbCommand()
-    (new CoralElevatorSetPositionClimbCommand(0, 0)).schedule();
+    (new CoralElevatorSetPositionClimbCommand(0)).schedule();
   }
 
   /* Sets position of elevator climb to low Goal preset */
   public void climbLowGoal() {
     // Calls CoralElevatorSetPositionClimbCommand()
-    (new CoralElevatorSetPositionClimbCommand(39.4, 59.5)).schedule();
+    (new CoralElevatorSetPositionClimbCommand(39.4)).schedule();
   }
 
   /* Sets position of elevator climb to Mid Goal preset */
   public void climbMidGoal() {
     // Calls CoralElevatorSetPositionClimbCommand()
-    (new CoralElevatorSetPositionClimbCommand(84.1, 133.4)).schedule();
+    (new CoralElevatorSetPositionClimbCommand(84.1)).schedule();
   }
 
   /* Sets position of elevator climb to High Goal preset */
   public void climbHighGoal() {
     // Calls CoralElevatorSetPositionClimbCommand()
-    (new CoralElevatorSetPositionClimbCommand(climb_max_1, climb_max_2)).schedule();
+    (new CoralElevatorSetPositionClimbCommand(climb_max_1)).schedule();
   }
 
   // Arm Motor Methods -------------------------------------------------------------------------------

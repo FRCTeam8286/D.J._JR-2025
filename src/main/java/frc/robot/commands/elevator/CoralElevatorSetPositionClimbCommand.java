@@ -12,15 +12,13 @@ public class CoralElevatorSetPositionClimbCommand extends Command {
   private CoralElevatorSubsystem m_subsystem;
   private double position_1;
   private double error_1;
-  private double position_2;
   private double error_2;
   private double kP = 0.05;
   private double goalThreshold = 3;
 
   /** causes Climb motor to move to given position */
-  public CoralElevatorSetPositionClimbCommand(double position_1, double position_2) {
+  public CoralElevatorSetPositionClimbCommand(double position_1) {
     this.position_1 = position_1;
-    this.position_2 = position_2;
     m_subsystem = Robot.m_CoralElevatorSubsystem;
     addRequirements(m_subsystem);
   }

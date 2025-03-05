@@ -253,6 +253,8 @@ public class Robot extends TimedRobot {
     new POVButton(controller, 270).onTrue(new CoralElevatorSetPositionArmCommand(-42.19)); // Score Low Preset
 
     // Test Controls //
-   
+    new Trigger(() -> controller.getRawButton(Constants.X_BUTTON)).whileTrue(new InstantCommand(() -> m_CoralElevatorSubsystem.setSpeedClimbOne(0.25))); // Climb forward
+    new Trigger(() -> controller.getRawButton(Constants.Y_BUTTON)).whileTrue(new InstantCommand(() -> m_CoralElevatorSubsystem.setSpeedClimbOne(-0.25))); // Climb backward
+
   }
 }
