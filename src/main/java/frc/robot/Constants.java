@@ -45,12 +45,12 @@ public final class Constants {
     public static final int RIGHT_FRONT_DRIVE_MOTOR_ID = 12; // NEO motor
     public static final int LEFT_REAR_DRIVE_MOTOR_ID = 11; // NEO motor
     public static final int RIGHT_REAR_DRIVE_MOTOR_ID = 13; // NEO motor
-    public static final int INTAKE_BAR_MOTOR_ID = 40; // NEO 550 motor
-    public static final int INTAKE_ARM_MOTOR_ID = 30; // NEO motor
+    //public static final int INTAKE_BAR_MOTOR_ID = 40; // NEO 550 motor
+    //public static final int INTAKE_ARM_MOTOR_ID = 30; // NEO motor
     public static final int ELEVATOR_STAGE_1_MOTOR_ID = 20; // NEO motor
     //public static final int ELEVATOR_STAGE_2_MOTOR_ID = 10; // NEO 550 motor
-    //public static final int END_EFFECTOR_WHEEL_MOTOR_ID = 7; // NEO 550 motor
-    //public static final int END_EFFECTOR_ARM_MOTOR_ID = 8; // NEO 550 motor
+    public static final int END_EFFECTOR_WHEEL_MOTOR_ID = 40; // NEO 550 motor
+    public static final int END_EFFECTOR_ARM_MOTOR_ID = 30; // NEO 550 motor
 
     // Servo IDs //
     public static final int ELEVATOR_DROP_MOTOR_ID = 0;
@@ -94,10 +94,10 @@ public final class Constants {
     public static final boolean ELEVATOR_STAGE_1_INVERT = true;
     public static final boolean ELEVATOR_STAGE_2_INVERT = true;
     public static final boolean ELEVATOR_WHEEL_INVERT = true;
-    public static final boolean ELEVATOR_ARM_INVERT = true;
+    public static final boolean ELEVATOR_ARM_INVERT = false;
     public static final double ELEVATOR_SPEED = 0.2;
     public static final double ARM_SPEED = 0.2;
-    public static final double WHEEL_SPEED = 0.6;
+    public static final double WHEEL_SPEED = 0.2;
     public static final double ARM_GRAVITY_CONST = -0.03;
     public static final int ELEVATOR_ROTATIONS_PER_INCH = 13; // Number of rotations elevator climb motor must complete to raise/lower elevator by one inch
 
@@ -140,10 +140,4 @@ public final class Constants {
 
     // Pneumatics Constants //
     public static final int COMPRESSOR_CAN_ID = 7;
-
-    // Apriltag Vision Constants //
-    public static final double CAMERA_HEIGHT_METERS = Units.inchesToMeters(7);
-    public static final double TARGET_HEIGHT_METERS = Units.inchesToMeters(18.5);
-    public static final double CAMERA_PITCH_RADIANS = Units.degreesToRadians(18);
-    public static final String USB_CAMERA_NAME = "Arducam_OV9782_USB_Camera";
 }

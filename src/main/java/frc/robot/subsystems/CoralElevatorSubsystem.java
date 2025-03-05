@@ -32,20 +32,20 @@ public class CoralElevatorSubsystem extends SubsystemBase {
     public double climb_max_2 = 251;
     public double climb_min_1 = 0;
     public double climb_min_2 = 0;
-    public double arm_max = 39.4;
-    public double arm_min = 0;
+    public double arm_max = 4;
+    public double arm_min = -42.19;
 
     /** Subsystem for controlling the coral elevator */
     public CoralElevatorSubsystem() {
       // Configure the Spark MAX motor controller using the new 2025 method
       m_elevator_climb_1 = new SparkMax(Constants.ELEVATOR_STAGE_1_MOTOR_ID, MotorType.kBrushless);
-      configureSparkMAX(m_elevator_climb_1, Constants.ELEVATOR_STAGE_1_INVERT);
+      //configureSparkMAX(m_elevator_climb_1, Constants.ELEVATOR_STAGE_1_INVERT);
       //m_elevator_climb_2 = new SparkMax(Constants.ELEVATOR_STAGE_2_MOTOR_ID, MotorType.kBrushless);
-      configureSparkMAX(m_elevator_climb_2, Constants.ELEVATOR_STAGE_2_INVERT);
-      //m_elevator_arm = new SparkMax(Constants.END_EFFECTOR_ARM_MOTOR_ID, MotorType.kBrushless);
-      configureSparkMAX(m_elevator_arm, Constants.ELEVATOR_ARM_INVERT);
-      //m_elevator_wheel = new SparkMax(Constants.END_EFFECTOR_WHEEL_MOTOR_ID, MotorType.kBrushless);
-      configureSparkMAX(m_elevator_wheel, Constants.ELEVATOR_WHEEL_INVERT);
+      //configureSparkMAX(m_elevator_climb_2, Constants.ELEVATOR_STAGE_2_INVERT);
+      m_elevator_arm = new SparkMax(Constants.END_EFFECTOR_ARM_MOTOR_ID, MotorType.kBrushless);
+      //configureSparkMAX(m_elevator_arm, Constants.ELEVATOR_ARM_INVERT);
+      m_elevator_wheel = new SparkMax(Constants.END_EFFECTOR_WHEEL_MOTOR_ID, MotorType.kBrushless);
+      //configureSparkMAX(m_elevator_wheel, Constants.ELEVATOR_WHEEL_INVERT);
   
       // Put the default speed on SmartDashboard if needed
       // SmartDashboard.putNumber("Elevator Speed", Constants.ELEVATOR_SPEED);
@@ -86,39 +86,18 @@ public class CoralElevatorSubsystem extends SubsystemBase {
     return gravityControl;
   }
 
-  /* Sets speed of the elevator CLimb motor two. Inbuilt limiters */
-  public void setSpeedClimbTwo(double speed) {
-    // Spark Max set() method with inbuilt limiters
-    if ((speed > 0) && (getPositionClimbTwo() > climb_max_2)) {
-      m_elevator_climb_2.set(0);
-    } else if ((speed < 0) && (getPositionClimbTwo() < climb_min_2))  {
-      m_elevator_climb_2.set(0);
-    } else {
-      m_elevator_climb_2.set(speed);
-    }
-  }
-  
-  /* Gets position of the elevator climb motor two */
-  public double getPositionClimbTwo() {
-    // Spark Max getEncoder().getPosition() method
-    return m_elevator_climb_2.getEncoder().getPosition();
-  }
-
   /* Set Climb motor two speed to 0 */
   public void stopClimbTwo() {
-    setSpeedClimbTwo(0);
   }
 
   /* Set speed of both climb motors at once */
   public void setSpeedClimb(double speed_1, double speed_2) {
     setSpeedClimbOne(speed_1);
-    setSpeedClimbTwo(speed_2);
   }
 
   /* Set both Climb motor speeds to 0 */
   public void stopClimb() {
     setSpeedClimbOne(0);
-    setSpeedClimbTwo(0);
   }
 
   /* Sets position of elevator climb to Neutral preset */
@@ -219,7 +198,6 @@ public class CoralElevatorSubsystem extends SubsystemBase {
 
     // Publish encoder values to SmartDashboard
     SmartDashboard.putNumber("Elevator Climb 1 Position", getPositionClimbOne());
-    SmartDashboard.putNumber("Elevator Climb 2 Position", getPositionClimbTwo());
     SmartDashboard.putNumber("Elevator Arm Position", getPositionArm());
     SmartDashboard.putNumber("Elevator Wheel Position", getPositionWheel());
   }

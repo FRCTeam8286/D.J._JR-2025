@@ -74,7 +74,6 @@ public class CoralElevatorSetPositionBoth extends Command {
     }
 
     m_subsystem.setSpeedClimbOne(output_1);
-    m_subsystem.setSpeedClimbTwo(output_2);
   }
 
   // Called once the command ends or is interrupted.

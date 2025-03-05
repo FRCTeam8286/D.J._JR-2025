@@ -6,14 +6,13 @@ package frc.robot.subsystems;
 import frc.robot.Constants;
 
 import com.studica.frc.AHRS;
-
+import com.revrobotics.sim.SparkMaxSim;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -44,7 +43,7 @@ public class DriveSubsystem extends SubsystemBase {
 
 	private double DRIVE_GEAR_RATIO = Constants.DRIVE_GEAR_RATIO;
 
-	private AHRS navx = new AHRS(AHRS.NavXComType.kUSB1); // Instantiate a NavX Gyroscope connected to a roboRIO USB port
+	private AHRS navx = new AHRS(AHRS.NavXComType.kMXP_SPI); // Instantiate a NavX Gyroscope connected to a roboRIO USB port
 
 	double leftFrontPositionZero, rightFrontPositionZero, leftBackPositionZero, rightBackPositionZero = 0.0;
 

@@ -36,8 +36,6 @@ public class CoralElevatorSetPositionClimbCommand extends Command {
   public void execute() {
     this.error_1 = position_1 - m_subsystem.getPositionClimbOne();
     double output_1 = kP * error_1;
-    this.error_2 = position_2 - m_subsystem.getPositionClimbTwo();
-    double output_2 = kP * error_2;
 
     if (Math.abs(output_1) > 0.2) { // Max power we want to allow
       output_1 = Math.copySign(0.2, output_1);
@@ -46,22 +44,13 @@ public class CoralElevatorSetPositionClimbCommand extends Command {
       output_1 = Math.copySign(0.05, output_1);
     }
 
-    if (Math.abs(output_2) > 0.2) { // Max power we want to allow
-      output_2 = Math.copySign(0.2, output_2);
-    }
-    if (Math.abs(output_2) < 0.05) { // Min power we want to allow
-      output_2 = Math.copySign(0.05, output_2);
-    }
-
     m_subsystem.setSpeedClimbOne(output_1);
-    m_subsystem.setSpeedClimbTwo(output_2);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_subsystem.setSpeedClimbOne(0);
-    m_subsystem.setSpeedClimbTwo(0);
   }
 
   // Returns true when the command should end.
