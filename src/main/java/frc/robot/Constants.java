@@ -99,7 +99,7 @@ public final class Constants {
     public static final boolean ELEVATOR_ARM_INVERT = false;
     public static final double ELEVATOR_SPEED = 0.2;
     public static final double ARM_SPEED = 0.2;
-    public static final double WHEEL_SPEED = 0.2;
+    public static final double WHEEL_SPEED = 0.9;
     public static final double ARM_GRAVITY_CONST = -0.03;
     public static final int ELEVATOR_ROTATIONS_PER_INCH = 13; // Number of rotations elevator climb motor must complete to raise/lower elevator by one inch
 

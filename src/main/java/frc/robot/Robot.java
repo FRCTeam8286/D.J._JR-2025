@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.autonomous.example_basic_auto.Drive1MeterAuto;
 import frc.robot.commands.autonomous.example_basic_auto.SquareAutonomous;
 import frc.robot.commands.elevator.CoralElevatorMoveCommand;
@@ -193,7 +194,7 @@ public class Robot extends TimedRobot {
     double xSpeed = -controller.getRawAxis(Constants.LEFT_HORIZONTAL_JOYSTICK_AXIS);
     double zSpeed = -controller.getRawAxis(Constants.RIGHT_HORIZONTAL_JOYSTICK_AXIS);
     // Implementing a dead zone
-    double deadZone = 0.05;
+    double deadZone = 0.20;
     ySpeed = (Math.abs(ySpeed) > deadZone) ? ySpeed : 0;
     xSpeed = (Math.abs(xSpeed) > deadZone) ? xSpeed : 0;
     zSpeed = (Math.abs(zSpeed) > deadZone) ? zSpeed : 0;
@@ -201,26 +202,17 @@ public class Robot extends TimedRobot {
     ySpeed = Math.max(Math.min(ySpeed, 0.4), -0.4);
     xSpeed = Math.max(Math.min(xSpeed, 0.4), -0.4);
     zSpeed = Math.max(Math.min(zSpeed, 0.4), -0.4);
-
+    
     if (Math.abs(zSpeed) > 0.01) { // If we are telling the robot to rotate, then let it rotate
-			// m_driveSubsystem.driveCartesian(ySpeed, xSpeed, zSpeed, m_driveSubsystem.getRotation2d()); // field-relative
       m_driveSubsystem.driveCartesian(ySpeed, xSpeed, zSpeed); // robot-relative
-			goalAngle = m_driveSubsystem.getGyroAngle();
-		}
-		else { // Otherwise, use the gyro to maintain our current angle
-			double error = m_driveSubsystem.getGyroAngle() - goalAngle;
-			
-			double correction = Constants.GYRO_TURN_KP * error;
-      if (Math.abs(correction) > Constants.MAX_POWER_GYRO) { // Maximum value we want
-        correction = Math.copySign(Constants.MAX_POWER_GYRO, correction);
-      }
-			
-			// m_driveSubsystem.driveCartesian(ySpeed, xSpeed, -1 * correction, m_driveSubsystem.getRotation2d()); // field-relative
-      m_driveSubsystem.driveCartesian(ySpeed, xSpeed, -1 * correction); // robot-relative
-      }
-    } else {
       goalAngle = m_driveSubsystem.getGyroAngle();
-		}
+    } else { // Otherwise, stop the robot's rotation
+      m_driveSubsystem.driveCartesian(ySpeed, xSpeed, 0); // robot-relative
+    }
+  } else {
+    m_driveSubsystem.driveCartesian(0, 0, 0); // Stop the robot when manual control is disabled
+    goalAngle = m_driveSubsystem.getGyroAngle();
+  }
   }
 
   @Override
@@ -251,14 +243,19 @@ public class Robot extends TimedRobot {
     // Coral Elevator Controls //
     new Trigger(() -> controller.getRawButton(Constants.PREV_BUTTON)).whileTrue(new CoralElevatorWheelMoveCommand(-Constants.WHEEL_SPEED)); // Wheel Outtake Manual
     new Trigger(() -> controller.getRawButton(Constants.START_BUTTON)).whileTrue(new CoralElevatorWheelMoveCommand(Constants.WHEEL_SPEED)); // Weel Intake Manual
-    new POVButton(controller, 0).onTrue(new CoralElevatorSetPositionArmCommand(4.19)); // Score Mid Preset
-    new POVButton(controller, 90).onTrue(new CoralElevatorSetPositionArmCommand(4.19)); // Score High Preset
-    new POVButton(controller, 180).onTrue(new CoralElevatorSetPositionArmCommand(-28.59)); //  Intake Preset
-    new POVButton(controller, 270).onTrue(new CoralElevatorSetPositionArmCommand(-42.19)); // Score Low Preset
+    //new POVButton(controller, 0).onTrue(new CoralElevatorSetPositionArmCommand(4.19)); // Score Mid Preset
+    //new POVButton(controller, 90).onTrue(new CoralElevatorSetPositionArmCommand(4.19)); // Score High Preset
+    //new POVButton(controller, 180).onTrue(new CoralElevatorSetPositionArmCommand(-28.59)); //  Intake Preset
+    //new POVButton(controller, 270).onTrue(new CoralElevatorSetPositionArmCommand(-42.19)); // Score Low Preset
+    // Change POVButton bindings to manually control the arm
+    new POVButton(controller, 0).whileTrue(new RunCommand(() -> m_CoralElevatorSubsystem.setSpeedArm(0.5), m_CoralElevatorSubsystem)); // Move arm up
+    new POVButton(controller, 180).whileTrue(new RunCommand(() -> m_CoralElevatorSubsystem.setSpeedArm(-0.5), m_CoralElevatorSubsystem)); // Move arm down
 
-    // Test Controls //
-    new Trigger(() -> controller.getRawButton(Constants.X_BUTTON)).whileTrue(new InstantCommand(() -> m_CoralElevatorSubsystem.setSpeedClimbOne(0.25))); // Climb forward
-    new Trigger(() -> controller.getRawButton(Constants.Y_BUTTON)).whileTrue(new InstantCommand(() -> m_CoralElevatorSubsystem.setSpeedClimbOne(-0.25))); // Climb backward
 
+// Test Controls //
+new Trigger(() -> controller.getRawButton(Constants.X_BUTTON))
+    .whileTrue(new RunCommand(() -> m_CoralElevatorSubsystem.setSpeedClimbOne(0.75), m_CoralElevatorSubsystem)); // Climb forward
+new Trigger(() -> controller.getRawButton(Constants.Y_BUTTON))
+    .whileTrue(new RunCommand(() -> m_CoralElevatorSubsystem.setSpeedClimbOne(-0.75), m_CoralElevatorSubsystem)); // Climb backward
   }
 }

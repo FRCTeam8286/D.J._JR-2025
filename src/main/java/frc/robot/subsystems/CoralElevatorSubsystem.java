@@ -28,8 +28,8 @@ public class CoralElevatorSubsystem extends SubsystemBase {
     private double gravityControl;
 
     // Coral Elevator limiters
-    public double climb_max_1 = 167.2;
-    public double climb_min_1 = 0;
+    public double climb_max_1 = 255;
+    public double climb_min_1 = -255;
     public double arm_max = 4;
     public double arm_min = -42.19;
 
