@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.Optional;
 
+import com.studica.frc.AHRS;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -37,9 +39,10 @@ import frc.robot.subsystems.LEDSubsystem.LEDMode;
  * project.
  */
 public class Robot extends TimedRobot {
-
+  
   Command m_autonomousCommand;
 	SendableChooser<Command> autonChooser = new SendableChooser<Command>(); // Create a chooser to select an autonomous command
+  private double currentSpeedLimit = Constants.SPEED_LIMIT;
 
   public static boolean manualDriveControl = true;
 
@@ -61,7 +64,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     configureButtonBindings(); // Bind our commands to physical buttons on a controller
-
+    m_driveSubsystem.zeroGyro();
     // Add our Autonomous Routines to the chooser //
 		autonChooser.setDefaultOption("Do Nothing", new InstantCommand());
     autonChooser.addOption("Drive 1 Meter", new Drive1MeterAuto());
@@ -199,18 +202,18 @@ public class Robot extends TimedRobot {
     xSpeed = (Math.abs(xSpeed) > deadZone) ? xSpeed : 0;
     zSpeed = (Math.abs(zSpeed) > deadZone) ? zSpeed : 0;
     // Speed limits
-    ySpeed = Math.max(Math.min(ySpeed, 0.4), -0.4);
-    xSpeed = Math.max(Math.min(xSpeed, 0.4), -0.4);
-    zSpeed = Math.max(Math.min(zSpeed, 0.4), -0.4);
+    ySpeed = Math.max(Math.min(ySpeed, currentSpeedLimit), -currentSpeedLimit);
+    xSpeed = Math.max(Math.min(xSpeed, currentSpeedLimit), -currentSpeedLimit);
+    zSpeed = Math.max(Math.min(zSpeed, currentSpeedLimit), -currentSpeedLimit);
     
     if (Math.abs(zSpeed) > 0.01) { // If we are telling the robot to rotate, then let it rotate
-      m_driveSubsystem.driveCartesian(ySpeed, xSpeed, zSpeed); // robot-relative
+      m_driveSubsystem.driveCartesian(ySpeed, xSpeed, zSpeed, m_driveSubsystem.getRotation2d()); // robot-relative
       goalAngle = m_driveSubsystem.getGyroAngle();
     } else { // Otherwise, stop the robot's rotation
-      m_driveSubsystem.driveCartesian(ySpeed, xSpeed, 0); // robot-relative
+      m_driveSubsystem.driveCartesian(ySpeed, xSpeed, 0, m_driveSubsystem.getRotation2d()); // robot-relative
     }
   } else {
-    m_driveSubsystem.driveCartesian(0, 0, 0); // Stop the robot when manual control is disabled
+    m_driveSubsystem.driveCartesian(0, 0, 0,m_driveSubsystem.getRotation2d()); // Stop the robot when manual control is disabled
     goalAngle = m_driveSubsystem.getGyroAngle();
   }
   }
@@ -252,6 +255,13 @@ public class Robot extends TimedRobot {
     new POVButton(controller, 180).whileTrue(new RunCommand(() -> m_CoralElevatorSubsystem.setSpeedArm(-0.5), m_CoralElevatorSubsystem)); // Move arm down
 
 
+// Speed Controls
+  if (controller.getRawButtonPressed(Constants.A_BUTTON)) {
+      currentSpeedLimit = Math.min(currentSpeedLimit + 0.2, 1.0); // Increase speed limit, max 1.0
+  }
+  if (controller.getRawButtonPressed(Constants.B_BUTTON)) {
+      currentSpeedLimit = Math.max(currentSpeedLimit - 0.2, 0.1); // Decrease speed limit, min 0.1
+  }
 // Test Controls //
 new Trigger(() -> controller.getRawButton(Constants.X_BUTTON))
     .whileTrue(new RunCommand(() -> m_CoralElevatorSubsystem.setSpeedClimbOne(0.75), m_CoralElevatorSubsystem)); // Climb forward

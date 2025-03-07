@@ -102,7 +102,6 @@ public class DriveSubsystem extends SubsystemBase {
 		m_leftBackMotor.set(0);
 		m_rightBackMotor.set(0);
 	}
-
 	// NavX Gyroscope Methods //
 	public void zeroGyro() {
 		navx.reset();
@@ -159,6 +158,7 @@ public class DriveSubsystem extends SubsystemBase {
 	public void driveCartesian(double ySpeed, double xSpeed, double zRotation, Rotation2d currentAngle) {
 		robotDrive.driveCartesian(ySpeed, xSpeed, zRotation, currentAngle);
 	}
+	
 
 	/** Get the encoder positions or speeds **************************************/
 	public double getLeftFrontPosition() { // Position is returned in units of revolutions
